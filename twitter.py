@@ -1,13 +1,38 @@
 import tweepy
+from exchanges import CoinDesk
+from time import sleep
 
 
-auth = tweepy.OAuthHandler('pp4D8qUHx5dItxs4WUzXBcqpZ','ALINzkGlnYtjUqL9LZkl3DScuzegmoAv5L9NOMB1LkNhMt3PcP')
-auth.set_access_token('3151015956-PR2cBInu83IcORPcPZQp1xkTfO3qBRmtrew1902','n2GJyHu4Ov5oPuSY1EchuLFG8xl8WIHC61F0LmRapxp5G')
+count =1
+mins = 30
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-text=input("Enter the Text you want to tweet")
+price_usd = round(CoinDesk().get_current_price(currency='USD'),2)
+price_inr = round(CoinDesk().get_current_price(currency='INR'),2)
 
-api.update_status(text)
+
+def get_price():
+
+    bitcoin_rate = ''' 
+    in USD : '''+ str(price_usd) +'''$
+    in INR : '''+str(price_inr)+''' Rs
+    
+    #Bitcoin #Crypto #Cryptocurrency
+    '''
+    return bitcoin_rate
+
+
+api.update_status("Latest Bitcoin Price is " + get_price())
+print("Status posted so far :" + str(count))
+count+=1
+while True:
+    sleep(30*mins)
+    api.update_status("Latest Bitcoin Price is "+get_price())
+    print("Status posted so far :" + str(count))
+    count+=1
+
 
 
