@@ -10,11 +10,10 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-price_usd = round(CoinDesk().get_current_price(currency='USD'),2)
-price_inr = round(CoinDesk().get_current_price(currency='INR'),2)
-
 
 def get_price():
+    price_usd = round(CoinDesk().get_current_price(currency='USD'), 2)
+    price_inr = round(CoinDesk().get_current_price(currency='INR'), 2)
 
     bitcoin_rate = ''' 
     in USD : '''+ str(price_usd) +'''$
@@ -25,13 +24,13 @@ def get_price():
     return bitcoin_rate
 
 
-api.update_status("Latest Bitcoin Price is " + get_price())
-print("Status posted so far :" + str(count))
+api.update_status("#"+str(count)+" Latest Bitcoin Price is " + get_price())
+print("#"+str(count)+" Status posted so far :" + str(count))
 count+=1
 while True:
     sleep(30*mins)
-    api.update_status("Latest Bitcoin Price is "+get_price())
-    print("Status posted so far :" + str(count))
+    api.update_status("#"+str(count)+" Latest Bitcoin Price is "+get_price())
+    print("#"+str(count)+" Status posted so far :" + str(count))
     count+=1
 
 
